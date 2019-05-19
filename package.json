@@ -1,0 +1,27 @@
+{
+  "name": "hyper-hypest",
+  "version": "1.0",
+  "description": "A beautiful & minimal macOS theme for Hyper",
+  "contributors": [
+    {
+      "name": "Hector Simpson",
+      "url": "https://github.com/dizzyup"
+    }
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/dizzyup/hyper-hypest",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "hyper",
+    "hyper-theme",
+    "hyperterm",
+    "theme",
+    "ui",
+    "terminal",
+    "vibrancy",
+    "zeit",
+    "dizzyup"
+  ]
+}
