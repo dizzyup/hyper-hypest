@@ -1,29 +1,31 @@
 <img src="assets/icon.png?raw=true" alt="Hypest Icon" width="148" height="148" />
 
 # Hypest for Hyper
-A beautiful and minimal macOS theme for Hyper -- with vibrancy, light and dark
+A beautiful and minimal macOS theme for Hyper — with vibrancy, light and dark
 modes, and theming for several popular Hyper plugins.
 
-<img src="assets/preview.jpg?raw=true" alt="Hypest Screenshot" width="600" height="400" />
+<img src="assets/preview.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
-### Installation
+## Installation
+If you are switching from another Hyper theme you may need to relaunch the app
+for Hypest to fully theme the window.
 
-#### From Hyper
+### From Hyper
 `hyper i hyper-hypest`
 
-#### Manually
-1. Open `~/.hyper.js` in your text editor
+### Manually
+1. Open `~/.hyper.js` in your text editor (`cmd` + `,` in Hyper)
 2. Add `hyper-hypest` to the `plugins` array
 
-### Configuration
+## Configuration
 There are two options that can be passed as optional configuration to change the
 theme. To pass the options you can add a `hypest` object to the `config` in
 `~/.hyper.js`.
 
 **Note:** you may need to restart Hyper when switching between themes.
 
-#### Dark Mode
-Set `darkmode` to true to use the dark version of the theme.
+### Dark Mode
+Set `darkmode` to `true` to use the dark version of the theme.
 ```js
 
 config: {
@@ -35,10 +37,10 @@ config: {
     ...
 }
 ```
-<img src="assets/preview-dark.jpg?raw=true" alt="Hypest Screenshot" width="600" height="400" />
+<img src="assets/preview-dark.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
-#### Vibrancy
-Set `vibrancy` to false to disable the window vibrancy effect in either theme.
+### Vibrancy
+Set `vibrancy` to `false` to disable the window vibrancy effect in either theme.
 ```js
 
 config: {
@@ -50,9 +52,9 @@ config: {
     ...
 }
 ```
-<img src="assets/preview-no-vibrancy.jpg?raw=true" alt="Hypest Screenshot" width="600" height="400" />
+<img src="assets/preview-no-vibrancy.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
-### Plugin support
+## Plugin support
 Hypest includes custom theming to support a few of the most popular Hyper
 plugins, including:
 
@@ -61,12 +63,12 @@ plugins, including:
 - hyper-tab-icons
 - hyper-highlight-active-pane
 
-<img src="assets/preview-with-plugins.jpg?raw=true" alt="Hypest Screenshot" width="600" height="400" />
+<img src="assets/preview-with-plugins.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
-### Known issues
+##  Known issues
 Any plugins that customize tabs beyond the plugins mentioned above may have
 compatibility issues with the theming in Hypest.
 
 At this time Hypest doesn't support user defined colors but it's planned. I'd
-also gladly accept [pull requests](https://github.com/dizzyup/hyper-hypest/pulls)
-to add that functionality, or to extend allow additional configuration options.
+also happily accept [pull requests](https://github.com/dizzyup/hyper-hypest/pulls)
+to add that functionality, or to allow for additional configuration options.
