@@ -66,9 +66,22 @@ plugins, including:
 <img src="assets/preview-with-plugins.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
 ##  Known issues
-Any plugins that customize tabs beyond the plugins mentioned above may have
-compatibility issues with the theming in Hypest.
 
-At this time Hypest doesn't support user defined colors but it's planned. I'd
-also happily accept [pull requests](https://github.com/dizzyup/hyper-hypest/pulls)
-to add that functionality, or to allow for additional configuration options.
+#### Plugins
+Any plugins that customize tabs beyond the plugins mentioned above may have
+compatibility issues with the theming in Hypest:
+
+- hyper-tabs-enhanced
+
+#### User colors
+Hypest doesn't currently support user defined colors (the color object in
+`~/.hyper.js` will be ignored) but support is planned.
+
+#### Vibrancy + zsh + pasted content
+There is a known issue when running zsh in Hyper where pasted content will
+appear as a block when the background has an alpha property. The issue has been
+[around for a while](https://github.com/zeit/hyper/issues/819) and has no
+official fix but there [is a comment](https://github.com/zeit/hyper/issues/819#issuecomment-383229725) in that issue that has a workaround. Run this in the command line to
+disable the background color of pasted content:
+
+```echo 'unset zle_bracketed_paste' >> ~/.zshrc```
