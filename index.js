@@ -4,7 +4,9 @@ exports.decorateConfig = config => {
 
   const hypest = Object.assign({
     darkmode: false,
-    vibrancy: true
+    vibrancy: true,
+    colors: {},
+    accentColor: 'blue'
   }, config.hypest)
 
   if (hypest.vibrancy === true) {
@@ -15,31 +17,52 @@ exports.decorateConfig = config => {
     }
   }
 
-  const foreground = (hypest.darkmode === true) ? '#FFF' : '#222';
+  const foreground = (hypest.darkmode === true) ? '#FFFFFF' : '#222222';
   const darkWithoutVibrancy = (hypest.darkmode === true) && (hypest.vibrancy === false);
+
+  const black = (hypest.colors.hasOwnProperty('black')) ? hypest.colors['black'] : '#222222';
+  const red = (hypest.colors.hasOwnProperty('red')) ? hypest.colors['red'] : '#FF3B30';
+  const green = (hypest.colors.hasOwnProperty('green')) ? hypest.colors['green'] : '#00CB24';
+  const yellow = (hypest.colors.hasOwnProperty('yellow')) ? hypest.colors['yellow'] : '#FFA600';
+  const blue = (hypest.colors.hasOwnProperty('blue')) ? hypest.colors['blue'] : '#0095FF';
+  const magenta = (hypest.colors.hasOwnProperty('magenta')) ? hypest.colors['magenta'] : '#EF338E';
+  const cyan = (hypest.colors.hasOwnProperty('cyan')) ? hypest.colors['cyan'] : '#11B5FF';
+  const white = (hypest.colors.hasOwnProperty('white')) ? hypest.colors['white'] : '#FFFFFF';
+
+  const colors = {
+    black, red, green, yellow, blue, magenta, cyan, white
+  }
+
+  const accentColor = hypest.accentColor;
+  const cursorColor = colors[accentColor];
+
+  const selectionColor = colors[accentColor] + '32';
+  const shadowColor = colors[accentColor] + '00';
+  const shadowColorRing = colors[accentColor] + '28';
+  const shadowColorBorder = colors[accentColor] + 'CC';
 
   return Object.assign({}, config, {
     foregroundColor: foreground,
     backgroundColor: 'transparent',
-    cursorColor: '#0095FF',
-    selectionColor: 'rgba(0, 145, 255, .4)',
+    cursorColor: cursorColor,
+    selectionColor: selectionColor,
     colors: {
-      black: '#222',
-      red: '#FF3B30',
-      green: '#00CB24',
-      yellow: '#FFA600',
-      blue: '#0095FF',
-      magenta: '#EF338E',
-      cyan: '#11B5FF',
-      white: '#FFF',
-      lightBlack: '#222',
-      lightRed: '#FF3B30',
-      lightGreen: '#00CB24',
-      lightYellow: '#FFA600',
-      lightBlue: '#0095FF',
-      lightMagenta: '#EF338E',
-      lightCyan: '#11B5FF',
-      lightWhite: '#FFF',
+      black: colors.black,
+      red: colors.red,
+      green: colors.green,
+      yellow: colors.yellow,
+      blue: colors.blue,
+      magenta:colors.magenta,
+      cyan: colors.cyan,
+      white: colors.white,
+      lightBlack: colors.black,
+      lightRed: colors.red,
+      lightGreen: colors.green,
+      lightYellow: colors.yellow,
+      lightBlue: colors.blue,
+      lightMagenta: colors.magenta,
+      lightCyan: colors.cyan,
+      lightWhite: colors.white
     },
     css: `
       ${config.css || ''}
@@ -225,7 +248,7 @@ exports.decorateConfig = config => {
       }
       .hyper-search-wrapper button.hyper-search-case-button-focused,
       .hyper-search-wrapper button.hyper-search-case-button-focused:active {
-        background: ${hypest.darkmode ? 'rgba(255, 255, 255, .6)' : 'rgba(0, 0, 0, .6)'};
+        background: ${hypest.darkmode ? 'rgba(255, 255, 255, .6)' : cursorColor};
       }
       .hyper-search-wrapper button.hyper-search-case-button-focused::after {
         content: '';
@@ -238,9 +261,9 @@ exports.decorateConfig = config => {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='13' viewBox='0 0 12 13'%3E%3Cpath fill='${hypest.darkmode ? '%23222' : '%23FFF'}' d='M237.994208,17.1648438 L243.994208,17.1648438 L243.994208,20.2 L237.994208,20.2 L237.994208,17.1648438 Z M238.996139,18.1726563 L238.996139,19.1863281 L242.992278,19.1863281 L242.998069,18.1726563 L238.996139,18.1726563 Z M235,14.2703125 L241.005792,8.2 L247,14.2703125 L244,14.2703125 L244,16.1511719 L237.994208,16.1511719 L238,14.2703125 L235,14.2703125 Z M241.005792,9.6296875 L237.409266,13.2566406 L239.001931,13.2566406 L238.996139,15.1375 L242.998069,15.1375 L243.003861,13.2566406 L244.584942,13.2566406 L241.005792,9.6296875 Z' transform='translate(-235 -8)'/%3E%3C/svg%3E%0A");
       }
       #hyper-search-input {
-        background: ${hypest.darkmode ? 'rgba(255, 255, 255, .2)' : 'rgba(255, 255, 255, .5)'};
+        background: ${hypest.darkmode ? 'rgba(255, 255, 255, .1)' : 'rgba(255, 255, 255, .5)'};
         border-radius: 5px;
-        box-shadow: 0 0 0 2px rgba(0, 145, 255, 0), 0 1px 3px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, .1), inset 0 0 0 1px rgba(0, 145, 255, 0);
+        box-shadow: 0 0 0 3px ${shadowColor}, 0 1px 3px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, .1), 0 0 0 1px ${shadowColor};
         padding: 2px 6px 2px 26px !important;
         color: ${hypest.darkmode ? '#fff' : '#222'} !important;
         opacity: 1 !important;
@@ -248,8 +271,8 @@ exports.decorateConfig = config => {
         flex-grow: 1;
       }
       #hyper-search-input:focus {
-        background: ${hypest.darkmode ? 'rgba(255, 255, 255, .2)' : 'rgba(255, 255, 255, .65)'};
-        box-shadow: ${hypest.darkmode ? '0 0 0 2px rgba(0, 145, 255, .5), 0 1px 3px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, .1), inset 0 0 0 1px rgba(0, 145, 255, .5)' : '0 0 0 2px rgba(0, 145, 255, .4), 0 1px 3px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, .1), inset 0 0 0 1px rgba(0, 145, 255, .8)'};
+        background: ${hypest.darkmode ? 'rgba(255, 255, 255, .3)' : 'rgba(255, 255, 255, .65)'};
+        box-shadow: ${hypest.darkmode ? '0 1px 3px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, .1)' : '0 0 0 3px ' + shadowColorRing + ', 0 1px 3px rgba(0, 0, 0, .1), 0 0 1px rgba(0, 0, 0, 0), 0 0 0 1px ' + shadowColorBorder + ''};
         opacity: 1 !important;
       }
       #hyper-search-input::-webkit-input-placeholder {
