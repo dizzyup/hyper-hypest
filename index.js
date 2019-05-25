@@ -295,6 +295,27 @@ exports.decorateConfig = config => {
       .tab_tab.tab_active svg {
         opacity: .8;
       }
+      .tabs_title svg,
+      .tab_textInner svg {
+        margin-top: -2px;
+      }
+      .tabs_title svg + span,
+      .tab_textInner svg + span {
+        vertical-align: unset !important;
+      }
+
+      // Override: hyper-tabs-enhanced
+
+      .tabs_title .tab_process:before,
+      .tab_tab.tab_active .tab_process:before,
+      .tab_tab:hover .tab_process:before {
+        opacity: .8;
+        background-color: ${hypest.darkmode ? '#fff' : '#222'};
+      }
+
+      .tab_tab:first-of-type {
+        padding-left: 0 !important;
+      }
 
       // Override: hyper-statusline
 
