@@ -6,7 +6,8 @@ exports.decorateConfig = config => {
     darkmode: false,
     vibrancy: true,
     colors: {},
-    accentColor: 'blue'
+    accentColor: 'blue',
+    hideControls: false
   }, config.hypest)
 
   if (hypest.vibrancy === true) {
@@ -15,6 +16,16 @@ exports.decorateConfig = config => {
     } else {
       exports.onWindow = browserWindow => browserWindow.setVibrancy('light');
     }
+  }
+
+  if (hypest.hideControls === true) {
+    exports.decorateBrowserOptions = (defaults) => {
+      return Object.assign({}, defaults, {
+        titleBarStyle: '',
+        transparent: true,
+        frame: false,
+      });
+    };
   }
 
   const foreground = (hypest.darkmode === true) ? '#FFFFFF' : '#222222';
@@ -103,6 +114,8 @@ exports.decorateConfig = config => {
         overflow-y: hidden;
         height: ${tabHeight};
         max-height: ${tabHeight};
+        margin-left: ${hypest.hideControls ? '0' : '78px'};
+      }
       .tabs_nav {
         height: ${tabHeight};
         line-height: ${tabHeight};

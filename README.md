@@ -90,6 +90,20 @@ config: {
 }
 ```
 
+### Remove window controls
+Set `hideControls` to `true` to remove the window controls and just show tabs.
+```js
+
+config: {
+    ...
+    hypest: {
+        // Default is false
+        hideControls: true
+    }
+    ...
+}
+```
+
 ## Plugin support
 Hypest includes custom theming to support a few of the most popular Hyper
 plugins, including:
@@ -103,17 +117,12 @@ plugins, including:
 
 ##  Known issues
 
-#### Plugins
-Any plugins that customize tabs beyond the plugins mentioned above may have
-compatibility issues with the theming in Hypest:
-
-- hyper-tabs-enhanced
-
 #### Vibrancy + zsh + pasted content
 There is a known issue when running zsh in Hyper where pasted content will
-appear as a block when the background has an alpha property. The issue has been
-[around for a while](https://github.com/zeit/hyper/issues/819) and has no
-official fix but there [is a comment](https://github.com/zeit/hyper/issues/819#issuecomment-383229725) in that issue that has a workaround. Run this in the command line to
-disable the background color of pasted content:
+appear as a block with invisible text if the window background has transparency.
+The issue has been [around for a while](https://github.com/zeit/hyper/issues/819)
+and has no official fix, but there [is a comment](https://github.com/zeit/hyper/issues/819#issuecomment-383229725) in that issue that has a workaround. Run the following in the command
+line to disable the background color of pasted content and make pasted text
+visible again:
 
 ```echo 'unset zle_bracketed_paste' >> ~/.zshrc```
