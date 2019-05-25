@@ -18,6 +18,7 @@ exports.decorateConfig = config => {
   }
 
   const foreground = (hypest.darkmode === true) ? '#FFFFFF' : '#222222';
+  const background = (hypest.darkmode === true) ? 'rgba(0, 0, 0, .4)' : 'rgba(255, 255, 255, .85)';
   const darkWithoutVibrancy = (hypest.darkmode === true) && (hypest.vibrancy === false);
 
   const black = (hypest.colors.hasOwnProperty('black')) ? hypest.colors['black'] : '#222222';
@@ -41,9 +42,11 @@ exports.decorateConfig = config => {
   const shadowColorRing = colors[accentColor] + '28';
   const shadowColorBorder = colors[accentColor] + 'CC';
 
+  const tabHeight = '37px';
+
   return Object.assign({}, config, {
     foregroundColor: foreground,
-    backgroundColor: 'transparent',
+    backgroundColor: background,
     cursorColor: cursorColor,
     selectionColor: selectionColor,
     colors: {
@@ -84,7 +87,13 @@ exports.decorateConfig = config => {
         background-color: ${hypest.darkmode ? 'rgba(255, 255, 255, .1)' : 'rgba(0, 0, 0, .05)'} !important;
       }
       .header_header {
+        top: 0;
+        left: 0;
+        right: 0;
         background-color: transparent !important;
+      }
+      .terms_termsNotShifted {
+        margin-top: ${tabHeight};
       }
       .tabs_borderShim {
         border-color: transparent !important;
@@ -92,6 +101,11 @@ exports.decorateConfig = config => {
       .tabs_list {
         overflow-x: auto;
         overflow-y: hidden;
+        height: ${tabHeight};
+        max-height: ${tabHeight};
+      .tabs_nav {
+        height: ${tabHeight};
+        line-height: ${tabHeight};
       }
       .tab_tab {
         border: 0;
@@ -101,7 +115,12 @@ exports.decorateConfig = config => {
       .tab_text {
         color: ${hypest.darkmode ? 'rgba(255, 255, 255, .4)' : 'rgba(0, 0, 0, .4)'};
         background: ${hypest.darkmode ? 'rgba(0, 0, 0, .3)' : 'rgba(0, 0, 0, .05)'};
+        height: ${tabHeight};
         transition: background ease .1s, color ease .1s;
+      }
+      .tab_textInner {
+        left: 28px;
+        right: 28px;
       }
       .tab_tab:hover .tab_text {
         color: ${hypest.darkmode ? 'rgba(255, 255, 255, .8)' : 'rgba(0, 0, 0, .6)'};
@@ -109,9 +128,9 @@ exports.decorateConfig = config => {
       }
       .tab_icon {
         color: ${hypest.darkmode ? '#FFF' : '#222'};
-        width: 15px !important;
-        height: 15px !important;
-        top: 9px;
+        width: 17px !important;
+        height: 17px !important;
+        top: 10px;
         right: 9px;
         border-radius: 15px !important;
       }
@@ -127,8 +146,8 @@ exports.decorateConfig = config => {
       .tab_icon::after {
         content: '';
         position: absolute;
-        top: 4px;
-        left: 4px;
+        top: 5px;
+        left: 5px;
         width: 7px;
         height: 7px;
         opacity: .8;
