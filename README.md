@@ -22,8 +22,8 @@ There are a few options that can be passed as optional configuration to modify
 the theme. To pass the options you can add a `hypest` object to the `config` in
 `~/.hyper.js`.
 
-**Note:** you may need to restart Hyper when setting the `darkmode` and
-`vibrancy` properties.
+**Note:** you may need to restart Hyper when setting or switching between the 
+values for the `darkmode` and `vibrancy` properties.
 
 ### Dark Mode
 Set `darkmode` to `true` to use the dark version of the theme.
@@ -55,6 +55,36 @@ config: {
 ```
 <img src="assets/preview-no-vibrancy.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
+### Borders
+Set `borders` to `true` if you prefer your tabs with some more contrast.
+```js
+
+config: {
+    ...
+    hypest: {
+        // Default is false
+        borders: true
+    }
+    ...
+}
+```
+<img src="assets/preview-with-borders.jpg?raw=true" alt="Hypest Screenshot" width="600" />
+
+### Remove window controls
+Set `hideControls` to `true` to remove the window controls and just show tabs.
+```js
+
+config: {
+    ...
+    hypest: {
+        // Default is false
+        hideControls: true
+    }
+    ...
+}
+```
+<img src="assets/preview-no-controls.jpg?raw=true" alt="Hypest Screenshot" width="600" />
+
 ### Accent color
 Pass a supported named color with `accentColor` to use it for the cursor color,
 selection color and the search styling (if using the `hyper-search` plugin).
@@ -85,20 +115,6 @@ config: {
         colors: {
           blue: '#0067FF'
         }
-    }
-    ...
-}
-```
-
-### Remove window controls
-Set `hideControls` to `true` to remove the window controls and just show tabs.
-```js
-
-config: {
-    ...
-    hypest: {
-        // Default is false
-        hideControls: true
     }
     ...
 }
