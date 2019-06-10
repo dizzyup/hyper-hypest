@@ -22,8 +22,8 @@ There are a few options that can be passed as optional configuration to modify
 the theme. To pass the options you can add a `hypest` object to the `config` in
 `~/.hyper.js`.
 
-**Note:** you may need to restart Hyper when setting or switching between the 
-values for the `darkmode` and `vibrancy` properties.
+**Note:** you may need to restart Hyper when setting or switching between the
+values for the `darkmode`, `vibrancy` and `hideControls` properties.
 
 ### Dark Mode
 Set `darkmode` to `true` to use the dark version of the theme.
@@ -88,6 +88,7 @@ config: {
 ### Accent color
 Pass a supported named color with `accentColor` to use it for the cursor color,
 selection color and the search styling (if using the `hyper-search` plugin).
+It's also used for activity in `hyper-tabs-enhanced` and `hyper-statusline`.
 ```js
 
 config: {
@@ -104,7 +105,7 @@ config: {
 ### Custom theme colors
 Hypest has it's own set of colors defined by the theme but you can override them
 by adding a `colors` object and setting all or some of the supported color
-properties.
+properties. These custom colors will also be inherited by `accentColor`.
 ```js
 
 config: {
@@ -128,17 +129,30 @@ plugins, including:
 - hyper-statusline
 - hyper-tab-icons
 - hyper-highlight-active-pane
+- hyper-tabs-enhanced
 
 <img src="assets/preview-with-plugins.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
 ##  Known issues
 
-#### Vibrancy + zsh + pasted content
-There is a known issue when running zsh in Hyper where pasted content will
-appear as a block with invisible text if the window background has transparency.
-The issue has been [around for a while](https://github.com/zeit/hyper/issues/819)
-and has no official fix, but there [is a comment](https://github.com/zeit/hyper/issues/819#issuecomment-383229725) in that issue that has a workaround. Run the following in the command
-line to disable the background color of pasted content and make pasted text
-visible again:
+#### Issues with selection colors when vibrancy is enabled
+There is a known issue in the Xterm.js engine where selection colors appear to
+render as opaque blocks with invisible text if the `background` has transparency.
+There is a [known issue](https://github.com/zeit/hyper/issues/819) on the Hyper
+repository and an [open issue](https://github.com/xtermjs/xterm.js/issues/1898)
+on the Xterm.js repo but unfortunately no fixes for the issue as it stands.
 
-```echo 'unset zle_bracketed_paste' >> ~/.zshrc```
+If you're just looking to solve **pasted** text selection for zsh shells there
+is a workaround for that at least, left in a comment on
+[the Hyper issue](https://github.com/zeit/hyper/issues/819#issuecomment-383229725).
+Run the following command to disable the background color of pasted content to
+make pasted text visible:
+
+```
+echo 'unset zle_bracketed_paste' >> ~/.zshrc
+```
+
+The only way to entirely work around the issue for now is to use the non-vibrant
+theme in Hypest by setting
+[vibrancy to false](https://github.com/dizzyup/hyper-hypest#vibrancy) in your
+Hypest configuration.

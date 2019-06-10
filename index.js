@@ -33,34 +33,39 @@ exports.decorateConfig = config => {
   }
 
   const foreground = (isDarkMode) ? '#FFFFFF' : '#222222';
-  const background = (isDarkMode) ? 'rgba(0, 0, 0, .4)' : 'rgba(255, 255, 255, .7)';
-  const backgroundNoVibrancy = (!isVibrant && isDarkMode) ? '#222222' : '#FFFFFF';
+  let background;
+
+  if (!isDarkMode && !isVibrant) {
+    background = `#FFFFFF`;
+  } else if (!isDarkMode && isVibrant) {
+    background = `rgba(255, 255, 255, .7)`;
+  } else if (isDarkMode && isVibrant) {
+    background = `rgba(0, 0, 0, .4)`;
+  } else {
+    background = `#222222`;
+  }
 
   let tabBorder, tabActiveBorder, activeTabEdges;
 
   if (!isDarkMode && hypest.borders === true) {
     tabBorder = `
-      box-shadow: 1px 0 0 rgba(0, 0, 0, .1);
-      background: rgba(0, 0, 0, .1);
+      background: rgba(0, 0, 0, .075);
     `;
     tabActiveBorder = `
-      box-shadow: 1px 0 0 rgba(0, 0, 0, .1);
       background: rgba(255, 255, 255, .4);
     `;
     activeTabEdges = `
-      box-shadow: -1px 0 0 rgba(0, 0, 0, .1), 1px 0 0 rgba(0, 0, 0, .15);
+      box-shadow: -1px 0 0 rgba(0, 0, 0, .075), 1px 0 0 rgba(0, 0, 0, .075);
     `;
   } else if (isDarkMode && hypest.borders === true) {
     tabBorder = `
-      box-shadow: 1px 0 0 rgba(0, 0, 0, .1);
-      background: rgba(0, 0, 0, .1);
+      background: rgba(255, 255, 255, .1);
     `;
     tabActiveBorder = `
-      box-shadow: 1px 0 0 rgba(0, 0, 0, 0);
       background: rgba(0, 0, 0, 0);
     `;
     activeTabEdges = `
-      box-shadow: -1px 0 0 rgba(0, 0, 0, .2), 1px 0 0 rgba(0, 0, 0, .4);
+      box-shadow: -1px 0 0 rgba(255, 255, 255, .1), 1px 0 0 rgba(255, 255, 255, .1);
     `
   } else {
     tabBorder = 'box-shadow: none;';
@@ -68,45 +73,41 @@ exports.decorateConfig = config => {
     activeTabEdges = 'box-shadow: none;'
   }
 
-  let tabBackground, tabActiveBackground, tabShim;
+  let tabBackground, tabShim;
 
   if (!isDarkMode) {
     if (isVibrant) {
       tabBackground = `
-        box-shadow: 1px 0 0 rgba(0, 0, 0, .03);
         background: rgba(0, 0, 0, .03);
       `;
       tabShim = `
-        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .075);
         background: rgba(0, 0, 0, .03);
       `;
     } else {
       tabBackground = `
-        box-shadow: 1px 0 0 rgba(0, 0, 0, .06);
         background: rgba(0, 0, 0, .06);
       `;
       tabShim = `
-        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .075);
         background: rgba(0, 0, 0, .06);
       `;
     }
   } else {
     if (isVibrant) {
       tabBackground = `
-        box-shadow: 1px 0 0 rgba(0, 0, 0, .2);
         background: rgba(0, 0, 0, .2);
       `;
       tabShim = `
-        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
+        box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .1);
         background: rgba(0, 0, 0, .2);
       `;
     } else {
       tabBackground = `
-        box-shadow: 1px 0 0 rgba(0, 0, 0, .2);
         background: rgba(0, 0, 0, .2);
       `;
       tabShim = `
-        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
+        box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .1);
         background: rgba(0, 0, 0, .2);
       `;
     }
@@ -161,7 +162,7 @@ exports.decorateConfig = config => {
     css: `
       ${config.css || ''}
       .hyper_main {
-        background: ${isVibrant ? background : backgroundNoVibrancy};
+        background: ${background};
         border: none !important;
       }
       .hyper_main::before {
@@ -211,8 +212,8 @@ exports.decorateConfig = config => {
       }
       .tab_tab {
         border: 0;
-        margin-right: 1px;
         min-width: 90px;
+        padding-left: 0;
         height: ${tabHeight};
         border: 0 !important;
         transition: border ease .1s;
@@ -237,6 +238,7 @@ exports.decorateConfig = config => {
       }
       .tab_tab.tab_active {
         z-index: 2;
+        height: calc(${tabHeight} - 1px);
         background: rgba(0, 0, 0, 0);
         ${activeTabEdges}
       }
@@ -245,7 +247,7 @@ exports.decorateConfig = config => {
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 0;
+        bottom: -1px;
         display: block;
         height: 1px;
         ${tabActiveBorder}
@@ -254,6 +256,7 @@ exports.decorateConfig = config => {
         background: ${isDarkMode ? 'rgba(0, 0, 0, 0)' : 'rgba(255, 255, 255, 0)'};
       }
       .tab_text {
+        font-weight: 500;
         color: ${isDarkMode ? 'rgba(255, 255, 255, .4)' : 'rgba(0, 0, 0, .4)'};
         height: calc(${tabHeight} - ${hypest.borders === true ? '1px' : '0px'});
         transition: color ease .1s, background ease .1s;
@@ -273,6 +276,10 @@ exports.decorateConfig = config => {
       .tab_textInner {
         left: 28px;
         right: 28px;
+      }
+      .tabs_title {
+        font-weight: 500;
+        height: ${tabHeight};
       }
       .tab_icon {
         color: ${isDarkMode ? '#FFF' : '#222'};
@@ -466,9 +473,16 @@ exports.decorateConfig = config => {
       .tab_tab.tab_active .tab_process:before,
       .tab_tab:hover .tab_process:before {
         opacity: .8;
-        background-color: ${isDarkMode ? '#fff' : '#222'};
+        background-color: ${isDarkMode ? '#fff' : '#222'} !important;
       }
-
+      .tab_tab.tab_hasActivity .tab_process:before,
+      .tab_tab.tab_hasActivity .tab_icon:before,
+      .tab_tab.tab_hasActivity .tab_icon:hover {
+        background-color: ${cursorColor} !important;
+      }
+      .tab_tab.tab_hasActivity .tab_text {
+        color: ${cursorColor} !important;
+      }
       .tab_tab:first-of-type {
         padding-left: 0 !important;
       }
@@ -477,9 +491,8 @@ exports.decorateConfig = config => {
 
       .footer_footer {
         opacity: 1 !important;
-        background: ${isDarkMode ? 'rgba(0, 0, 0, .2)' : 'rgba(0, 0, 0, .03)'} !important;
+        background: ${isDarkMode ? 'rgba(0, 0, 0, .1)' : 'rgba(0, 0, 0, .03)'} !important;
       }
-
       .footer_footer::after {
         content: '';
         position: absolute;
@@ -488,23 +501,23 @@ exports.decorateConfig = config => {
         top: -1px;
         height: 1px;
         display: ${hypest.borders ? 'block' : 'none'};
-        background: ${isDarkMode ? 'rgba(0, 0, 0, .3)' : 'rgba(0, 0, 0, .1)'};
+        background: ${isDarkMode ? 'rgba(255, 255, 255, .1)' : 'rgba(0, 0, 0, .075)'};
       }
-
       .footer_group {
         color: ${isDarkMode ? '#fff' : '#222'} !important;
       }
-
-      .footer_footer .item_icon::before,
-      .footer_footer .item_dirty::before,
-      .footer_footer .item_ahead::before {
+      .footer_footer .item_icon::before {
         background: ${isDarkMode ? '#fff' : '#222'} !important;
         opacity: .8;
       }
-
+      .footer_footer .item_dirty::before,
+      .footer_footer .item_ahead::before {
+        background: ${cursorColor} !important;
+        opacity: 1;
+      }
       .footer_footer .item_dirty,
       .footer_footer .item_ahead {
-        color: ${isDarkMode ? '#fff' : '#222'} !important;
+        color: ${cursorColor} !important;
       }
     `
   });
