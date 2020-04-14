@@ -41,7 +41,7 @@ exports.decorateConfig = config => {
   if (!isDarkMode && !isVibrant) {
     background = `#FFFFFF`;
   } else if (!isDarkMode && isVibrant) {
-    background = `rgba(255, 255, 255, .7)`;
+    background = `rgba(255, 255, 255, .3)`;
   } else if (isDarkMode && isVibrant) {
     background = `rgba(0, 0, 0, .4)`;
   } else {
