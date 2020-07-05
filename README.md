@@ -40,6 +40,15 @@ config: {
 ```
 <img src="assets/preview-dark.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
+**Note:** if you're using `zsh` shell with `zsh-autosuggestions` and Hypest theme 
+is on `darkmode`, you may need to change the property `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE`
+at `.zshrc` file, like the following example:
+
+```js
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=243";
+// Where `243` is a color number from 256-color palette (default is `8`)
+```
+
 ### Vibrancy
 Set `vibrancy` to `false` to disable the window vibrancy effect in either theme.
 ```js
