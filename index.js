@@ -1,6 +1,6 @@
 "use strict";
 
-exports.decorateConfig = config => {
+exports.decorateConfig = (config) => {
   const hypest = Object.assign(
     {
       darkmode: false,
@@ -8,29 +8,33 @@ exports.decorateConfig = config => {
       borders: false,
       colors: {},
       accentColor: "blue",
-      hideControls: false
+      hideControls: false,
     },
     config.hypest
   );
+
+  if(!hypest.vibrancyLevel && !(hypest.vibrancyLevel === 0))
+    hypest.vibrancyLevel = 0.6;
 
   const isDarkMode = hypest.darkmode === true;
   const isVibrant = hypest.vibrancy === true;
 
   if (isVibrant) {
     if (isDarkMode) {
-      exports.onWindow = browserWindow =>
-        browserWindow.setVibrancy("ultra-dark");
+      exports.onWindow = (browserWindow) =>
+        browserWindow.setVibrancy("dark");
     } else {
-      exports.onWindow = browserWindow => browserWindow.setVibrancy("light");
+      exports.onWindow = (browserWindow) => 
+        browserWindow.setVibrancy("light");
     }
   }
 
   if (hypest.hideControls === true) {
-    exports.decorateBrowserOptions = defaults => {
+    exports.decorateBrowserOptions = (defaults) => {
       return Object.assign({}, defaults, {
         titleBarStyle: "",
         transparent: true,
-        frame: false
+        frame: false,
       });
     };
   }
@@ -41,9 +45,9 @@ exports.decorateConfig = config => {
   if (!isDarkMode && !isVibrant) {
     background = `#FFFFFF`;
   } else if (!isDarkMode && isVibrant) {
-    background = `rgba(255, 255, 255, .7)`;
+    background = `rgba(255, 255, 255, ${hypest.vibrancyLevel})`;
   } else if (isDarkMode && isVibrant) {
-    background = `rgba(0, 0, 0, .4)`;
+    background = `rgba(0, 0, 0, ${hypest.vibrancyLevel})`;
   } else {
     background = `#222222`;
   }
@@ -116,40 +120,51 @@ exports.decorateConfig = config => {
     }
   }
 
+  // Colors
   const black = hypest.colors.hasOwnProperty("black")
     ? hypest.colors["black"]
     : "#222222";
-  const red = hypest.colors.hasOwnProperty("red")
-    ? hypest.colors["red"]
-    : "#FF3B30";
+  const blue = hypest.colors.hasOwnProperty("blue")
+    ? hypest.colors["blue"]
+    : "#0095FF";
   const green = hypest.colors.hasOwnProperty("green")
     ? hypest.colors["green"]
     : "#00CB24";
   const yellow = hypest.colors.hasOwnProperty("yellow")
     ? hypest.colors["yellow"]
     : "#FFA600";
-  const blue = hypest.colors.hasOwnProperty("blue")
-    ? hypest.colors["blue"]
-    : "#0095FF";
-  const magenta = hypest.colors.hasOwnProperty("magenta")
-    ? hypest.colors["magenta"]
-    : "#EF338E";
+  const red = hypest.colors.hasOwnProperty("red")
+    ? hypest.colors["red"]
+    : "#FF3B30";
   const cyan = hypest.colors.hasOwnProperty("cyan")
     ? hypest.colors["cyan"]
     : "#11B5FF";
+  const magenta = hypest.colors.hasOwnProperty("magenta")
+    ? hypest.colors["magenta"]
+    : "#EF338E";
   const white = hypest.colors.hasOwnProperty("white")
     ? hypest.colors["white"]
     : "#FFFFFF";
 
+  // Light Colors
+  const lightBlack = hypest.colors.hasOwnProperty("lightBlack")
+    ? hypest.colors["lightBlack"]
+    : "#AAAAAA";
+  const lightWhite = hypest.colors.hasOwnProperty("lightWhite")
+    ? hypest.colors["lightWhite"]
+    : "#EEEEEE";
+
   const colors = {
     black,
-    red,
+    blue,
     green,
     yellow,
-    blue,
-    magenta,
+    red,
     cyan,
-    white
+    magenta,
+    white,
+    lightBlack,
+    lightWhite,
   };
 
   const accentColor = hypest.accentColor;
@@ -169,21 +184,21 @@ exports.decorateConfig = config => {
     selectionColor: selectionColor,
     colors: {
       black: colors.black,
-      red: colors.red,
+      blue: colors.blue,
       green: colors.green,
       yellow: colors.yellow,
-      blue: colors.blue,
-      magenta: colors.magenta,
+      red: colors.red,
       cyan: colors.cyan,
+      magenta: colors.magenta,
       white: colors.white,
-      lightBlack: colors.black,
-      lightRed: colors.red,
+      lightBlack: colors.lightBlack,
+      lightBlue: colors.blue,
       lightGreen: colors.green,
       lightYellow: colors.yellow,
-      lightBlue: colors.blue,
-      lightMagenta: colors.magenta,
+      lightRed: colors.red,
       lightCyan: colors.cyan,
-      lightWhite: colors.white
+      lightMagenta: colors.magenta,
+      lightWhite: colors.lightWhite,
     },
     css: `
       ${config.css || ""}
@@ -246,7 +261,7 @@ exports.decorateConfig = config => {
         padding-left: 0;
         height: ${tabHeight};
         border: 0 !important;
-        transition: border ease .1s;
+        transition: border ease .1s, background ease .2s;
         ${tabBackground}
       }
       .tab_tab:last-child {
@@ -291,7 +306,7 @@ exports.decorateConfig = config => {
         font-weight: 500;
         color: ${isDarkMode ? "rgba(255, 255, 255, .4)" : "rgba(0, 0, 0, .4)"};
         height: calc(${tabHeight} - ${hypest.borders === true ? "1px" : "0px"});
-        transition: color ease .1s, background ease .1s;
+        transition: color ease .1s, background ease .2s;
       }
       .tab_tab:hover .tab_text {
         color: ${isDarkMode ? "rgba(255, 255, 255, .8)" : "rgba(0, 0, 0, .6)"};
@@ -316,6 +331,7 @@ exports.decorateConfig = config => {
       .tab_textInner {
         left: 28px;
         right: 28px;
+        top: -1px;
       }
       .tabs_title {
         font-weight: 500;
@@ -323,16 +339,19 @@ exports.decorateConfig = config => {
       }
       .tab_icon {
         color: ${isDarkMode ? "#FFF" : "#222"};
-        width: 17px !important;
-        height: 17px !important;
-        top: 10px;
-        right: 9px;
-        border-radius: 15px !important;
+        width: 16px !important;
+        height: 16px !important;
+        top: 11px;
+        left: 9px;
+        border-radius: 3px !important;
+        box-shadow: inset 0 0 0 0.5px ${isDarkMode ? "rgba(255, 255, 255, 0)" : "rgba(0, 0, 0, 0)"};
       }
       .tab_icon:hover {
         background: ${
           isDarkMode ? "rgba(255, 255, 255, .1)" : "rgba(0, 0, 0, .05)"
         } !important;
+        ${!hypest.borders ? "box-shadow: none !important;" : ""}
+        box-shadow: inset 0 0 0 0.5px ${isDarkMode ? "rgba(255, 255, 255, .1)" : "rgba(0, 0, 0, .05)"};
       }
       .tab_icon svg {
         display: none;
@@ -343,14 +362,14 @@ exports.decorateConfig = config => {
       .tab_icon::after {
         content: '';
         position: absolute;
-        top: 5px;
-        left: 5px;
-        width: 7px;
-        height: 7px;
+        top: 4px;
+        left: 4px;
+        width: 8px;
+        height: 8px;
         opacity: .8;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' viewBox='0 0 7 7'%3E%3Cpath fill='${
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='${
           isDarkMode ? "%23FFF" : "%23222"
-        }' fill-rule='evenodd' d='M6.03554572,6.83548509 L3.49504595,4.29706594 L0.957967343,6.8322625 C0.737166863,7.05059545 0.381074894,7.04870051 0.162613563,6.82802976 C-0.0542099399,6.60901359 -0.0542037584,6.25637092 0.162627533,6.03736121 L2.69981853,3.50227698 L0.163273785,0.967810534 C-0.0531566711,0.745171539 -0.0480175614,0.389339098 0.174752389,0.173036435 C0.392961119,-0.0388380703 0.740197748,-0.038868679 0.958445534,0.172967337 L3.49513077,2.7074057 L6.03476629,0.169878382 C6.25148385,-0.0524814282 6.60753114,-0.0571583867 6.83002172,0.15943183 C7.05251229,0.376022046 7.057192,0.731860103 6.84047442,0.954219926 C6.83700871,0.957775874 6.833496,0.961285769 6.82993722,0.964748713 L4.29049839,3.50227603 L6.83083636,6.04053346 C7.05041685,6.2599602 7.0504368,6.61574181 6.83088095,6.8351924 C6.61120524,7.05482901 6.25517874,7.05490146 6.03554572,6.83548509 Z'/%3E%3C/svg%3E%0A");
+        }' fill-rule='evenodd' d='M0.558058262,0.558058262 C0.802135944,0.313980579 1.19786406,0.313980579 1.44194174,0.558058262 L1.44194174,0.558058262 L4,3.117 L6.55805826,0.558058262 C6.80213594,0.313980579 7.19786406,0.313980579 7.44194174,0.558058262 C7.65889968,0.775016202 7.68300612,1.1117967 7.51426105,1.35538188 L7.44194174,1.44194174 L4.883,4 L7.44194174,6.55805826 L7.51426105,6.64461812 C7.68300612,6.8882033 7.65889968,7.2249838 7.44194174,7.44194174 C7.19786406,7.68601942 6.80213594,7.68601942 6.55805826,7.44194174 L6.55805826,7.44194174 L4,4.883 L1.44194174,7.44194174 C1.19786406,7.68601942 0.802135944,7.68601942 0.558058262,7.44194174 C0.341100322,7.2249838 0.316993884,6.8882033 0.485738948,6.64461812 L0.558058262,6.55805826 L3.117,4 L0.558058262,1.44194174 L0.485738948,1.35538188 C0.316993884,1.1117967 0.341100322,0.775016202 0.558058262,0.558058262 Z'/%3E%3C/svg%3E%0A");
       }
 
       .xterm-viewport::-webkit-scrollbar {
@@ -603,6 +622,6 @@ exports.decorateConfig = config => {
       .footer_footer .item_ahead {
         color: ${cursorColor} !important;
       }
-    `
+    `,
   });
 };
