@@ -5,7 +5,6 @@ exports.decorateConfig = (config) => {
     {
       darkmode: false,
       vibrancy: true,
-      vibrancyLevel: 0,
       borders: false,
       colors: {},
       accentColor: "blue",
@@ -14,7 +13,7 @@ exports.decorateConfig = (config) => {
     config.hypest
   );
 
-  if(hypest.vibrancyLevel === 0)
+  if(!hypest.vibrancyLevel && !(hypest.vibrancyLevel === 0))
     hypest.vibrancyLevel = 0.6;
 
   const isDarkMode = hypest.darkmode === true;
