@@ -48,7 +48,9 @@ config: {
     ...
     hypest: {
         // Default is true
-        vibrancy: false
+        vibrancy: false,
+        // Default value 0.7 for light mode, 0.3 for dark mode
+        vibrancyVolume: 0.7
     }
     ...
 }
