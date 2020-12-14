@@ -41,7 +41,7 @@ config: {
 <img src="assets/preview-dark.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
 ### Vibrancy
-Set `vibrancy` to `false` to disable the window vibrancy effect in either theme.
+Set `vibrancy` to `false` to disable the window vibrancy effect in either theme. 
 ```js
 
 config: {
@@ -49,13 +49,27 @@ config: {
     hypest: {
         // Default is true
         vibrancy: false,
-        // Default value 0.7 for light mode, 0.3 for dark mode
-        vibrancyVolume: 0.7
     }
     ...
 }
 ```
 <img src="assets/preview-no-vibrancy.jpg?raw=true" alt="Hypest Screenshot" width="600" />
+
+### Vibrancy level
+To have the window appear more transparent when vibrancy is enabled, set `vibrancyLevel` to a value between `0` and `0.5`. To have the window appear more opaque, increase `vibrancyLevel` to a value between `0.7` and `1.0`. 
+
+For both light and dark versions, the default vibrancy level is `0.6`.
+```js
+
+config: {
+    ...
+    hypest: {
+        // Default value is 0.6
+        vibrancyLevel: 0.6
+    }
+    ...
+}
+```
 
 ### Borders
 Set `borders` to `true` if you prefer your tabs with some more contrast.

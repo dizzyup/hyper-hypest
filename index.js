@@ -5,7 +5,7 @@ exports.decorateConfig = (config) => {
     {
       darkmode: false,
       vibrancy: true,
-      vibrancyVolume: 0,
+      vibrancyLevel: 0,
       borders: false,
       colors: {},
       accentColor: "blue",
@@ -14,8 +14,8 @@ exports.decorateConfig = (config) => {
     config.hypest
   );
 
-  if(hypest.vibrancyVolume === 0)
-    hypest.vibrancyVolume = hypest.darkmode? .4 : .7;
+  if(hypest.vibrancyLevel === 0)
+    hypest.vibrancyLevel = 0.6;
 
   const isDarkMode = hypest.darkmode === true;
   const isVibrant = hypest.vibrancy === true;
@@ -25,7 +25,8 @@ exports.decorateConfig = (config) => {
       exports.onWindow = (browserWindow) =>
         browserWindow.setVibrancy("dark");
     } else {
-      exports.onWindow = (browserWindow) => browserWindow.setVibrancy("light");
+      exports.onWindow = (browserWindow) => 
+        browserWindow.setVibrancy("light");
     }
   }
 
@@ -45,9 +46,9 @@ exports.decorateConfig = (config) => {
   if (!isDarkMode && !isVibrant) {
     background = `#FFFFFF`;
   } else if (!isDarkMode && isVibrant) {
-    background = `rgba(255, 255, 255, ${hypest.vibrancyVolume})`;
+    background = `rgba(255, 255, 255, ${hypest.vibrancyLevel})`;
   } else if (isDarkMode && isVibrant) {
-    background = `rgba(0, 0, 0, ${hypest.vibrancyVolume})`;
+    background = `rgba(0, 0, 0, ${hypest.vibrancyLevel})`;
   } else {
     background = `#222222`;
   }
