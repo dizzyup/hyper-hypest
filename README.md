@@ -1,8 +1,8 @@
 <img src="assets/icon.png?raw=true" alt="Hypest Icon" width="148" height="148" />
 
 # Hypest for Hyper
-A beautiful and minimal macOS theme for Hyper — with vibrancy, light and dark
-modes, and theming for several popular Hyper plugins.
+A beautiful and minimal macOS theme for Hyper — with light and dark
+modes, plus customizable vibrancy.
 
 <img src="assets/preview.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
@@ -136,18 +136,6 @@ config: {
     ...
 }
 ```
-
-## Plugin support
-Hypest includes custom theming to support a few of the most popular Hyper
-plugins, including:
-
-- hyper-search
-- hyper-statusline
-- hyper-tab-icons
-- hyper-highlight-active-pane
-- hyper-tabs-enhanced
-
-<img src="assets/preview-with-plugins.jpg?raw=true" alt="Hypest Screenshot" width="600" />
 
 ##  Known issues
 
